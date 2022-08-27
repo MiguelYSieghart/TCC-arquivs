@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title> Cadastro de Usuarios </title>
+    </head>
+
+
+    <body>
+
+        <fieldset>
+            <form action="inserir_usuario.php" method="get">
+
+                <label for="Nome">
+                    <p> Nome: <br> <input id="nome" type="text" name="nome"
+                            required></p> </label> <br>
+
+                <label for="email">
+                    <p> E-mail: <br> <input id="email" type="email" name="email"
+                            required></p> </label> <br>
+
+                <label for="senha">
+                    <p> Senha: <br> <input id="senha" type="senha" name="senha"
+                            required></p> </label> <br>
+
+                <label for="sts">
+                    <p> Status: <br> <input id="sts" type="text"
+                            name="sts" required></p> </label> <br>
+
+                <label for="permissao">
+                    <p> Permissão: <br> <input id="permissao" type="text"
+                            name="permissao" required></p> </label> <br>
+
+
+
+                <br> <input id="cadastrar" type="submit" name="Cadastrar"
+                    value="CADASTRAR">
+
+                <br> <a id="bot" href="usuario.php"> Listar usuarios </a>
+            </form>
+
+        </fieldset>
+
+    </body>
+</html>
