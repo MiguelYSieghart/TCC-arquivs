@@ -1,6 +1,5 @@
 <?php
-session_start();
-session_destroy();
+require_once "../includes/funcoes.php";
 
-header("Location: ../home.php");
-exit;
+$controller = new App\Controllers\AuthController();
+$controller->logout();

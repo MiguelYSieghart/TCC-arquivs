@@ -1,12 +1,18 @@
 <?php
 require_once "../includes/funcoes.php";
 $tituloPagina = "Cadastrar artista";
+$breadcrumbs = array(
+    array('label' => 'Home', 'url' => base_url('home.php')),
+    array('label' => 'Artistas', 'url' => base_url('crud_artistas/listar.php')),
+    array('label' => 'Cadastrar')
+);
 include "../includes/header.php";
 ?>
 
-<h1 class="h3 mb-4">Cadastrar artista</h1>
+<?php mr_page_header('<i class="bi bi-plus-circle"></i> Cadastro', 'Cadastrar artista', 'Adicione o nome e uma descrição curta do artista ou grupo.'); ?>
 
-<form action="inserir.php" method="post" class="mr-form">
+<form action="inserir.php" method="post" class="card mr-form">
+    <div class="card-body">
     <div class="mb-3">
         <label for="nome_artist" class="form-label">Nome</label>
         <input id="nome_artist" type="text" name="nome_artist" class="form-control" required>
@@ -20,6 +26,7 @@ include "../includes/header.php";
     <div class="mr-form-actions">
         <button type="submit" class="btn btn-primary">Cadastrar</button>
         <a href="listar.php" class="btn btn-outline-primary">Cancelar</a>
+    </div>
     </div>
 </form>
 

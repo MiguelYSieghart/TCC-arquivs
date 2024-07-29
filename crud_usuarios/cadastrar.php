@@ -1,12 +1,18 @@
 <?php
 require_once "../includes/funcoes.php";
 $tituloPagina = "Cadastrar usuário";
+$breadcrumbs = array(
+    array('label' => 'Home', 'url' => base_url('home.php')),
+    array('label' => 'Usuários', 'url' => base_url('crud_usuarios/listar.php')),
+    array('label' => 'Cadastrar')
+);
 include "../includes/header.php";
 ?>
 
-<h1 class="h3 mb-4">Cadastrar usuário</h1>
+<?php mr_page_header('<i class="bi bi-person-plus"></i> Cadastro', 'Cadastrar usuário', 'Crie um usuário para acessar favoritos, perfil e histórico de leitura.'); ?>
 
-<form action="inserir.php" method="post" class="mr-form">
+<form action="inserir.php" method="post" class="card mr-form">
+    <div class="card-body">
     <div class="mb-3">
         <label for="nome" class="form-label">Nome</label>
         <input id="nome" type="text" name="nome" class="form-control" required>
@@ -42,6 +48,7 @@ include "../includes/header.php";
     <div class="mr-form-actions">
         <button type="submit" class="btn btn-primary">Cadastrar</button>
         <a href="listar.php" class="btn btn-outline-primary">Cancelar</a>
+    </div>
     </div>
 </form>
 

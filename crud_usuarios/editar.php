@@ -1,10 +1,9 @@
 <?php
-require_once "../includes/conecta.php";
 require_once "../includes/funcoes.php";
 
 $id_usuario = (int) $_GET['id_usuario'];
-$resultado = mysqli_query($conexao, "SELECT * FROM usuario WHERE id_usuario = $id_usuario");
-$linha = mysqli_fetch_assoc($resultado);
+$userRepository = new App\Repositories\UserRepository();
+$linha = $userRepository->find($id_usuario);
 
 if (!$linha) {
     header("Location: listar.php");
@@ -12,12 +11,18 @@ if (!$linha) {
 }
 
 $tituloPagina = "Editar usuário";
+$breadcrumbs = array(
+    array('label' => 'Home', 'url' => base_url('home.php')),
+    array('label' => 'Usuários', 'url' => base_url('crud_usuarios/listar.php')),
+    array('label' => 'Editar')
+);
 include "../includes/header.php";
 ?>
 
-<h1 class="h3 mb-4">Editar usuário</h1>
+<?php mr_page_header('<i class="bi bi-person-gear"></i> Edição', 'Editar usuário', 'Atualize os dados de acesso e permissão do usuário.'); ?>
 
-<form action="alterar.php" method="post" class="mr-form">
+<form action="alterar.php" method="post" class="card mr-form">
+    <div class="card-body">
     <input type="hidden" name="id_usuario" value="<?php echo $linha['id_usuario']; ?>">
 
     <div class="mb-3">
@@ -55,6 +60,7 @@ include "../includes/header.php";
     <div class="mr-form-actions">
         <button type="submit" class="btn btn-primary">Salvar alterações</button>
         <a href="listar.php" class="btn btn-outline-primary">Cancelar</a>
+    </div>
     </div>
 </form>
 

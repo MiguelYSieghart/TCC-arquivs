@@ -1,10 +1,9 @@
 <?php
-require_once "../includes/conecta.php";
 require_once "../includes/funcoes.php";
 
 $id_art = (int) $_GET['id_art'];
-$resultado = mysqli_query($conexao, "SELECT * FROM artista WHERE id_art = $id_art");
-$linha = mysqli_fetch_assoc($resultado);
+$artistRepository = new App\Repositories\ArtistRepository();
+$linha = $artistRepository->find($id_art);
 
 if (!$linha) {
     header("Location: listar.php");
@@ -12,12 +11,18 @@ if (!$linha) {
 }
 
 $tituloPagina = "Editar artista";
+$breadcrumbs = array(
+    array('label' => 'Home', 'url' => base_url('home.php')),
+    array('label' => 'Artistas', 'url' => base_url('crud_artistas/listar.php')),
+    array('label' => 'Editar')
+);
 include "../includes/header.php";
 ?>
 
-<h1 class="h3 mb-4">Editar artista</h1>
+<?php mr_page_header('<i class="bi bi-pencil-square"></i> Edição', 'Editar artista', 'Atualize o cadastro do artista ou grupo.'); ?>
 
-<form action="alterar.php" method="post" class="mr-form">
+<form action="alterar.php" method="post" class="card mr-form">
+    <div class="card-body">
     <input type="hidden" name="id_art" value="<?php echo $linha['id_art']; ?>">
 
     <div class="mb-3">
@@ -33,6 +38,7 @@ include "../includes/header.php";
     <div class="mr-form-actions">
         <button type="submit" class="btn btn-primary">Salvar alterações</button>
         <a href="listar.php" class="btn btn-outline-primary">Cancelar</a>
+    </div>
     </div>
 </form>
 
