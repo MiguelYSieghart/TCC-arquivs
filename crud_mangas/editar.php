@@ -1,10 +1,10 @@
 <?php
-require_once "../includes/conecta.php";
 require_once "../includes/funcoes.php";
 
 $id_obra = (int) $_GET['id_obra'];
-$resultado = mysqli_query($conexao, "SELECT * FROM obras WHERE id_obra = $id_obra");
-$linha = mysqli_fetch_assoc($resultado);
+$mangaRepository = new App\Repositories\MangaRepository();
+$genreRepository = new App\Repositories\GenreRepository();
+$linha = $mangaRepository->find($id_obra);
 
 if (!$linha) {
     header("Location: listar.php");
@@ -12,20 +12,28 @@ if (!$linha) {
 }
 
 $tituloPagina = "Editar mangá";
+$generos = $genreRepository->all();
+$generosSelecionados = $genreRepository->idsForManga($id_obra);
+$breadcrumbs = array(
+    array('label' => 'Home', 'url' => base_url('home.php')),
+    array('label' => 'Títulos', 'url' => base_url('crud_mangas/listar.php')),
+    array('label' => $linha['titulo'], 'url' => base_url('crud_mangas/visualizar.php?id_obra=' . $linha['id_obra'])),
+    array('label' => 'Editar')
+);
 include "../includes/header.php";
 ?>
 
-<h1 class="h3 mb-4">Editar mangá</h1>
+<?php mr_page_header('<i class="bi bi-pencil-square"></i> Edição', 'Editar mangá', 'Atualize os dados da obra mantendo a estrutura de pasta usada pelos capítulos.'); ?>
 
-<form action="alterar.php" method="post" enctype="multipart/form-data" class="mr-form">
+<form action="alterar.php" method="post" class="card mr-form">
+    <div class="card-body">
     <input type="hidden" name="id_obra" value="<?php echo $linha['id_obra']; ?>">
-    <input type="hidden" name="capa_pre_alteracao" value="<?php echo e($linha['capa_obra']); ?>">
 
     <div class="row">
         <div class="col-md-4 mb-3">
             <img src="<?php echo caminho_capa($linha['capa_obra']); ?>" class="img-fluid mb-3" alt="<?php echo e($linha['titulo']); ?>">
-            <label for="capa_obra" class="form-label">Trocar capa</label>
-            <input id="capa_obra" type="file" name="capa_obra" class="form-control" accept="image/*">
+            <label for="capa_obra" class="form-label">Link da capa</label>
+            <input id="capa_obra" type="url" name="capa_obra" class="form-control" value="<?php echo e($linha['capa_obra']); ?>" placeholder="https://site.com/capa.jpg">
         </div>
 
         <div class="col-md-8">
@@ -51,7 +59,7 @@ include "../includes/header.php";
             </div>
 
             <div class="row">
-                <div class="col-md-4 mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="demografia" class="form-label">Tipo</label>
                     <select id="demografia" name="demografia" class="form-select" required>
                         <?php foreach (tipos_obras() as $tipo) { ?>
@@ -59,7 +67,7 @@ include "../includes/header.php";
                         <?php } ?>
                     </select>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-6 mb-3">
                     <label for="status_obra" class="form-label">Status</label>
                     <select id="status_obra" name="status_obra" class="form-select" required>
                         <?php foreach (status_obras() as $valor => $texto) { ?>
@@ -67,9 +75,15 @@ include "../includes/header.php";
                         <?php } ?>
                     </select>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <label for="genero" class="form-label">Gênero</label>
-                    <input id="genero" type="text" name="genero" class="form-control" value="<?php echo e($linha['genero']); ?>">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Gêneros</label>
+                <div class="mr-tags-panel" role="group" aria-label="Gêneros da obra">
+                    <?php foreach ($generos as $genero) { ?>
+                        <input type="checkbox" class="btn-check" name="generos[]" id="genero_<?php echo $genero['id_genero']; ?>" value="<?php echo $genero['id_genero']; ?>" <?php echo in_array((int) $genero['id_genero'], $generosSelecionados) ? 'checked' : ''; ?> autocomplete="off">
+                        <label class="btn btn-sm btn-outline-primary" for="genero_<?php echo $genero['id_genero']; ?>"><?php echo e($genero['nome_genero']); ?></label>
+                    <?php } ?>
                 </div>
             </div>
 
@@ -83,6 +97,7 @@ include "../includes/header.php";
                 <a href="listar.php" class="btn btn-outline-primary">Cancelar</a>
             </div>
         </div>
+    </div>
     </div>
 </form>
 

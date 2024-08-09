@@ -68,10 +68,178 @@ CREATE TABLE IF NOT EXISTS `artista_has_obras` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `genero`
+--
+
+DROP TABLE IF EXISTS `obra_genero`;
+DROP TABLE IF EXISTS `genero`;
+CREATE TABLE IF NOT EXISTS `genero` (
+  `id_genero` int(11) NOT NULL AUTO_INCREMENT,
+  `nome_genero` varchar(100) NOT NULL,
+  `slug` varchar(120) DEFAULT NULL,
+  PRIMARY KEY (`id_genero`),
+  KEY `idx_genero_nome` (`nome_genero`),
+  KEY `idx_genero_slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Extraindo dados da tabela `genero`
+--
+
+INSERT INTO `genero` (`nome_genero`, `slug`) VALUES
+('+18', '18'),
+('Absolute Cinema!!! 🙌', 'absolute-cinema'),
+('Academia', 'academia'),
+('Ação', 'acao'),
+('Aconchegante', 'aconchegante'),
+('action', 'action'),
+('Adaptação', 'adaptacao'),
+('Adult', 'adult'),
+('Adultério', 'adulterio'),
+('Adulto', 'adulto'),
+('Adventure', 'adventure'),
+('Agentes', 'agentes'),
+('Alta Fantasia', 'alta-fantasia'),
+('Amadurecimento', 'amadurecimento'),
+('Animais', 'animais'),
+('Anti-Herói', 'anti-heroi'),
+('Apocalipse', 'apocalipse'),
+('Apocalíptico', 'apocaliptico'),
+('Arte Marcial', 'arte-marcial'),
+('Artes Marciais', 'artes-marciais'),
+('Aventura', 'aventura'),
+('Bullying', 'bullying'),
+('Colorido', 'colorido'),
+('Com?dia', 'com-dia'),
+('Comédia', 'comedia'),
+('Construção', 'construcao'),
+('Cotidiano', 'cotidiano'),
+('Crime', 'crime'),
+('Culinaria', 'culinaria'),
+('Cultivação', 'cultivacao'),
+('Cultivo', 'cultivo'),
+('Dança', 'danca'),
+('Deliquentes', 'deliquentes'),
+('Dem?nios', 'dem-nios'),
+('Demônio', 'demonio'),
+('Demônios', 'demonios'),
+('Demons', 'demons'),
+('Drama', 'drama'),
+('Dungeon', 'dungeon'),
+('Ecchi', 'ecchi'),
+('Escola', 'escola'),
+('Escolar', 'escolar'),
+('Escritório', 'escritorio'),
+('Esporte', 'esporte'),
+('Esportes', 'esportes'),
+('Familia', 'familia'),
+('Fantasia', 'fantasia'),
+('Fantasia Sombria', 'fantasia-sombria'),
+('Fatia da Vida/Slice of Life', 'fatia-da-vida-slice-of-life'),
+('Fazenda', 'fazenda'),
+('Ficção Científica', 'ficcao-cientifica'),
+('Game Elements', 'game-elements'),
+('Gore', 'gore'),
+('Guerra', 'guerra'),
+('Harém', 'harem'),
+('Heterossexual', 'heterossexual'),
+('Histórico', 'historico'),
+('Horror', 'horror'),
+('Isekai', 'isekai'),
+('Jogo', 'jogo'),
+('Jogos', 'jogos'),
+('Josei', 'josei'),
+('Linha do Tempo', 'linha-do-tempo'),
+('Luta', 'luta'),
+('Maduro', 'maduro'),
+('máfia', 'mafia'),
+('Magia', 'magia'),
+('manhua', 'manhua'),
+('Manhwa', 'manhwa'),
+('martial arts', 'martial-arts'),
+('Masmorra', 'masmorra'),
+('Mecha', 'mecha'),
+('Medieval', 'medieval'),
+('Militar', 'militar'),
+('Mist?rio', 'mist-rio'),
+('Mistério', 'misterio'),
+('Moderno', 'moderno'),
+('Monstro', 'monstro'),
+('Monstros', 'monstros'),
+('Murim', 'murim'),
+('Musculação', 'musculacao'),
+('Necromante', 'necromante'),
+('Novel', 'novel'),
+('One-shot', 'one-shot'),
+('Oneshot', 'oneshot'),
+('Overpower', 'overpower'),
+('overpowered', 'overpowered'),
+('Pets', 'pets'),
+('Psicológico', 'psicologico'),
+('Psicopata', 'psicopata'),
+('Realidade Virtual', 'realidade-virtual'),
+('Reencarna??o', 'reencarna-o'),
+('Reencarnação', 'reencarnacao'),
+('Regressão', 'regressao'),
+('regressão de idade', 'regressao-de-idade'),
+('Regresso em Busca de Vingança', 'regresso-em-busca-de-vinganca'),
+('Retorno', 'retorno'),
+('revange', 'revange'),
+('Revenge', 'revenge'),
+('Revenge Quest', 'revenge-quest'),
+('Romance', 'romance'),
+('Romance Escolar', 'romance-escolar'),
+('Seinen', 'seinen'),
+('Shoujo', 'shoujo'),
+('Shounen', 'shounen'),
+('Shounen Ai', 'shounen-ai'),
+('Sistema', 'sistema'),
+('Sistema de Jogo', 'sistema-de-jogo'),
+('Slice of Life', 'slice-of-life'),
+('Sobrenatura', 'sobrenatura'),
+('Sobrenatural', 'sobrenatural'),
+('Sobrevivência', 'sobrevivencia'),
+('Super Poderes', 'super-poderes'),
+('SuperPoder', 'superpoder'),
+('Suspense', 'suspense'),
+('Tela de Sistema', 'tela-de-sistema'),
+('Terror', 'terror'),
+('teste', 'teste'),
+('Thriller', 'thriller'),
+('Time Manipulation', 'time-manipulation'),
+('Tragédia', 'tragedia'),
+('Tragédias', 'tragedias'),
+('Transmigração', 'transmigracao'),
+('Viagem no Tempo', 'viagem-no-tempo'),
+('Vida escolar', 'vida-escolar'),
+('Vingança', 'vinganca'),
+('Violência', 'violencia'),
+('Vizinhos', 'vizinhos'),
+('Volta no Tempo', 'volta-no-tempo'),
+('Zumbi', 'zumbi');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `obra_genero`
+--
+
+CREATE TABLE IF NOT EXISTS `obra_genero` (
+  `obras_id_obra` int(11) NOT NULL,
+  `genero_id_genero` int(11) NOT NULL,
+  PRIMARY KEY (`obras_id_obra`,`genero_id_genero`),
+  KEY `fk_obra_genero_genero_idx` (`genero_id_genero`),
+  KEY `fk_obra_genero_obras_idx` (`obras_id_obra`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `capitulo`
 --
 
 DROP TABLE IF EXISTS `capitulo`;
+DROP TABLE IF EXISTS `leitura_historico`;
 CREATE TABLE IF NOT EXISTS `capitulo` (
   `id_cap` int(11) NOT NULL AUTO_INCREMENT,
   `titulo_cap` varchar(255) DEFAULT NULL,
@@ -136,6 +304,25 @@ CREATE TABLE IF NOT EXISTS `favorito` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `leitura_historico`
+--
+
+CREATE TABLE IF NOT EXISTS `leitura_historico` (
+  `id_historico` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id_usuario` int(11) NOT NULL,
+  `obras_id_obra` int(11) NOT NULL,
+  `capitulo_id_cap` int(11) NOT NULL,
+  `data_leitura` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_historico`),
+  UNIQUE KEY `uk_leitura_usuario_capitulo` (`usuario_id_usuario`,`capitulo_id_cap`),
+  KEY `fk_leitura_usuario_idx` (`usuario_id_usuario`),
+  KEY `fk_leitura_obras_idx` (`obras_id_obra`),
+  KEY `fk_leitura_capitulo_idx` (`capitulo_id_cap`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `obras`
 --
 
@@ -154,7 +341,8 @@ CREATE TABLE IF NOT EXISTS `obras` (
   `scan_status` int(11) NOT NULL DEFAULT 1,
   `sinopse` text NOT NULL,
   `demografia` varchar(45) NOT NULL,
-  `capa_obra` varchar(255) DEFAULT 'assets/images/capas/',
+  `capa_obra` varchar(500) DEFAULT NULL,
+  `pasta_obra` varchar(255) DEFAULT NULL,
   `data_cadastro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_obra`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -186,6 +374,11 @@ INSERT INTO `obras` (`id_obra`, `titulo`, `autor`, `ano_lanc`, `status_obra`, `s
 (25, 'Douyara Boku no Hanayome wa Onna Kishidan na you de', 'Nori Itsurou', '2021-12-31', 'Em Lançamento', 'Aventuras de um cara que tem um harém cheio de cavaleiras mágicas! Ele será capaz de escolher a noiva perfeita para ele? Vamos descobrir!', 'Mangá', 'assets/images/b56bd1ff58a9673a2b98df51420407a1.jpg');
 
 UPDATE `obras` SET `slug` = CONCAT('obra-', `id_obra`) WHERE `slug` IS NULL;
+UPDATE `obras` SET `pasta_obra` = CONCAT('assets/images/obras/', `slug`) WHERE `pasta_obra` IS NULL;
+INSERT IGNORE INTO `obra_genero` (`obras_id_obra`, `genero_id_genero`)
+SELECT o.`id_obra`, g.`id_genero`
+FROM `obras` o
+INNER JOIN `genero` g ON LOWER(g.`nome_genero`) = LOWER(o.`demografia`);
 
 -- --------------------------------------------------------
 
@@ -216,6 +409,9 @@ INSERT INTO `favorito` (`usuario_id_usuario`, `obras_id_obra`) VALUES
 (2, 1),
 (2, 2),
 (2, 4);
+
+INSERT INTO `leitura_historico` (`usuario_id_usuario`, `obras_id_obra`, `capitulo_id_cap`) VALUES
+(2, 1, 1);
 SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;
 

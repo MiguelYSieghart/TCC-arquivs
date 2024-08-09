@@ -1,10 +1,10 @@
 <?php
-require_once "../includes/conecta.php";
 require_once "../includes/funcoes.php";
 
 $id_cap = (int) $_GET['id_cap'];
-$resultado = mysqli_query($conexao, "SELECT c.*, o.titulo, o.id_obra FROM capitulo c INNER JOIN obras o ON o.id_obra = c.obras_id_obra WHERE c.id_cap = $id_cap");
-$capitulo = mysqli_fetch_assoc($resultado);
+$chapterRepository = new App\Repositories\ChapterRepository();
+$historyRepository = new App\Repositories\ReadingHistoryRepository();
+$capitulo = $chapterRepository->findWithManga($id_cap);
 
 if (!$capitulo) {
     header("Location: listar.php");
@@ -12,9 +12,10 @@ if (!$capitulo) {
 }
 
 $id_obra = (int) $capitulo['id_obra'];
-$anterior = mysqli_fetch_assoc(mysqli_query($conexao, "SELECT * FROM capitulo WHERE obras_id_obra = $id_obra AND numero_cap < " . (int) $capitulo['numero_cap'] . " ORDER BY numero_cap DESC LIMIT 1"));
-$proximo = mysqli_fetch_assoc(mysqli_query($conexao, "SELECT * FROM capitulo WHERE obras_id_obra = $id_obra AND numero_cap > " . (int) $capitulo['numero_cap'] . " ORDER BY numero_cap ASC LIMIT 1"));
-$imagens = mysqli_query($conexao, "SELECT * FROM imagem_cap WHERE capitulo_id_cap = $id_cap ORDER BY ordem ASC, id_img_cap ASC");
+$historyRepository->register($id_cap);
+$anterior = $chapterRepository->previous($id_obra, $capitulo['numero_cap']);
+$proximo = $chapterRepository->next($id_obra, $capitulo['numero_cap']);
+$imagens = $chapterRepository->images($id_cap);
 
 $tituloPagina = $capitulo['titulo'] . " - Cap. " . $capitulo['numero_cap'];
 include "../includes/header.php";
@@ -32,7 +33,7 @@ include "../includes/header.php";
 </div>
 
 <div class="mr-reader mx-auto">
-    <?php $temImagem = false; while ($imagem = mysqli_fetch_assoc($imagens)) { $temImagem = true; ?>
+    <?php $temImagem = false; foreach ($imagens as $imagem) { $temImagem = true; ?>
         <img src="<?php echo base_url($imagem['caminho']); ?>" alt="Página <?php echo e($imagem['ordem']); ?>">
     <?php } ?>
 
