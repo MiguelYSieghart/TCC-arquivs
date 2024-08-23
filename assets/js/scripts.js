@@ -1,7 +1,24 @@
-/*!
-* Start Bootstrap - Shop Homepage v5.0.5 (https://startbootstrap.com/template/shop-homepage)
-* Copyright 2013-2022 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
-*/
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
+(() => {
+    'use strict';
+
+    if (window.bootstrap && window.bootstrap.Tooltip) {
+        document.querySelectorAll('[title]').forEach((item) => {
+            new window.bootstrap.Tooltip(item);
+        });
+    }
+
+    document.querySelectorAll('input[type="file"]').forEach((input) => {
+        input.addEventListener('change', () => {
+            const label = input.closest('.mb-3')?.querySelector('.form-label');
+            if (!label || !input.files.length) {
+                return;
+            }
+
+            const total = input.files.length;
+            label.dataset.originalText = label.dataset.originalText || label.textContent;
+            label.textContent = total === 1
+                ? `${label.dataset.originalText} - 1 arquivo selecionado`
+                : `${label.dataset.originalText} - ${total} arquivos selecionados`;
+        });
+    });
+})();
